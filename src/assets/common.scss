@@ -1,0 +1,7 @@
+@import  './mixi.scss';
+
+@for $i from 1 to 6 {
+  .custome-#{nth($colorsValue, $i)} {
+    color: nth($colors, $i);
+  }
+}
