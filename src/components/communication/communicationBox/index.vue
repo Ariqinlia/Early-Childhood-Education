@@ -103,6 +103,8 @@ export default {
     qvfenarr() {
       const { totalProblems: arr } = this
       console.log('arr:', arr)
+      this.unproblems.length = 0
+      this.problems.length = 0
       for (let i = 0; i < arr.length; i++) {
         if (arr[i].status === false) {
           arr[i].answer = 0
@@ -142,11 +144,13 @@ export default {
           }
         }
         this.renderData()
-        if (this.status) {
-          this.tabClick({ index: '0' })
-        } else {
-          this.tabClick({ index: '1' })
-        }
+      }
+
+      // 判断 已解决 未解决
+      if (this.status) {
+        this.tabClick({ index: '0' })
+      } else {
+        this.tabClick({ index: '1' })
       }
     },
     tabClick(e) {
