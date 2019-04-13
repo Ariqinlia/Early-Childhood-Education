@@ -32,7 +32,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style>
 .problemDec {
   display: flex;
   justify-content: space-around;

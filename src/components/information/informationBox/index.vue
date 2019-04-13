@@ -64,10 +64,9 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style>
   .info {
     width: 80%;
-    // background-color:pink;
     padding: 20px 10%;
   }
   .info-keys {

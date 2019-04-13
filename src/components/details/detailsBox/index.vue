@@ -42,7 +42,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style>
   .content {
     width: 80%;
     margin: 0 auto;

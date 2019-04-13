@@ -83,7 +83,7 @@ export default {
 }
 </script>
 
-<style lang='scss'>
+<style>
   .el-main {
     padding: 0;
   }

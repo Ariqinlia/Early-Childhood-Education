@@ -64,7 +64,7 @@ export default {
 }
 </script>
 
-<style lang='scss'>
+<style>
 
 @media screen and (max-width: 768px) {
 }

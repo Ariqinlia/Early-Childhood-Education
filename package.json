@@ -1,5 +1,5 @@
 {
-  "name": "temporaryMailbox",
+  "name": "Early_Childhood_Education",
   "version": "1.0.0",
   "description": "A Vue.js project",
   "author": "XiangNan <897124732@qq.com>",
@@ -15,11 +15,14 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
     "element-ui": "^2.4.11",
     "eslint-plugin-flowtype": "^3.2.1",
     "eslint-plugin-html": "^5.0.0",
+    "express": "^4.16.4",
     "mock": "^0.1.1",
     "mockjs": "^1.0.1-beta3",
+    "mysql": "^2.16.0",
     "vue": "^2.5.2",
     "vue-clipboard2": "^0.2.1",
     "vue-i18n": "^8.7.0",

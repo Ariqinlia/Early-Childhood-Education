@@ -10,7 +10,7 @@
   </div>
 </template>
 
-<style lang="scss">
+<style>
   .footer {
     margin: 20px auto;
   }

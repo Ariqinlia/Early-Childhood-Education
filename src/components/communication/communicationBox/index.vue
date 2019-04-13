@@ -196,7 +196,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style>
 .com {
   display: flex;
   padding: 20px 0;
