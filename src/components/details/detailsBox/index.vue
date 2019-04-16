@@ -9,12 +9,12 @@
           </p>
           <p>problem details</p>
           <div>
-            <!-- <el-input
+            <el-input
               :autosize="{ minRows: 2, maxRows: 4}"
               v-model="textarea3"
               type="textarea"
               placeholder="有没有想法呢？急需您的回答">
-            </el-input> -->
+            </el-input>
           </div>
           <el-button type="primary">提交答案</el-button>
         </div>
@@ -42,7 +42,11 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
+.problemsDetails {
+  width: 80%;
+  margin: 0 auto;
+}
   .content {
     width: 80%;
     margin: 0 auto;
@@ -62,7 +66,7 @@ export default {
     margin: 20px auto;
   }
   .answerDetails {
-    width: 80%;
+    width: 100%;
     border: 1px solid #ccc;
     margin: 20px auto 0;
   }

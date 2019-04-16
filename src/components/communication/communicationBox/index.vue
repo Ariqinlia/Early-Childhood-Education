@@ -73,7 +73,7 @@ export default {
       problems: [], // 50
       unsolves: [],
       solves: [],
-      status: true,
+      status: 1, //1 -- true已解决,0 -- false未解决
       loading: false,
       totalProblems: []
     }
@@ -82,20 +82,18 @@ export default {
     this.loading = true
     this.$axios
       .get(
-        'http://mockjs.com/api:3000/drms-project-management/homePage/commuQuestion'
+        '/api/user/commuQuestion'
       )
       .then(res => {
         this.loading = false
-        const arr = res.data.data.arr
+        const arr = res.data
         this.totalProblems = arr
         this.qvfenarr()
         this.tabClick({ index: '0' })
-        // this.unproblems = res.data.data.arr
-        // this.res = res.data.data
       })
       .catch(error => {
         this.loading = false
-        console('error', error)
+        console.log('error', error)
       })
   },
   methods: {
@@ -106,7 +104,9 @@ export default {
       this.unproblems.length = 0
       this.problems.length = 0
       for (let i = 0; i < arr.length; i++) {
-        if (arr[i].status === false) {
+        console.log('arr['+i+'].status:', arr[i].status)
+        if (arr[i].status === 0) {
+          console.log('status==false')
           arr[i].answer = 0
           this.unproblems.push(arr[i])
         } else {
@@ -119,11 +119,6 @@ export default {
     renderData() {
       this.solves = this.problems.slice(0, 10)
       this.unsolves = this.unproblems.slice(0, 10)
-      // if (this.status) {
-      //   this.tabClick({ index: '0' })
-      // } else {
-      //   this.tabClick({ index: '1' })
-      // }
     },
     search() {
       // not search
@@ -138,7 +133,7 @@ export default {
         for (let i = 0; i < this.totalProblems.length; i++) {
           if (this.totalProblems[i].dec.includes(this.input1)) {
             const item = this.totalProblems[i]
-            if (this.totalProblems[i].status === true) { this.problems.push(item) } else {
+            if (this.totalProblems[i].status === 1) { this.problems.push(item) } else {
               this.unproblems.push(item)
             }
           }
@@ -158,24 +153,20 @@ export default {
       // yi jie jue
       if (index === '0') {
         this.number = this.problems.length
-        this.status = true
+        this.status = 1
       }
       // wei jie jue
       if (index === '1') {
         this.number = this.unproblems.length
-        this.status = false
+        this.status = 0
       }
     },
     currentChange(currentPage) {
-      // console.log('currentPage', currentPage)
-      // this.qvfenarr()
-      // const { problems } = this
-      // const { unproblems } = this
       let total
       // 10  - 19  1x
       // this.solves = problems.slice(start, end) // 36
       // console.log(start, end, total)
-      if (this.status === false) {
+      if (this.status === 0) {
         total = this.unproblems.length
         console.log('unproblems total:', total)
         const start = (currentPage - 1) * 10
@@ -189,7 +180,6 @@ export default {
         const flag = Math.floor(total / 10) > Math.floor((start / 10))
         const end = flag ? start + 10 : total % 10 + start
         this.solves = this.problems.slice(start, end)
-        // console.log(start, end, total, Math.floor(total / 10), Math.floor((start / 10)))
       }
     }
   }

@@ -6,9 +6,14 @@
       <li><a href="#/commu">交流圈</a></li>
       <li><a href="#/product">商品推荐</a></li>
     </ul>
-    <ul class="login">
+    <ul class="login"
+      v-if="isLogin">
       <li><a href="#/login">登录</a></li>
       <li><a href="#/register">注册</a></li>
+    </ul>
+    <ul class="login" v-if="!isLogin">
+      <li><span>头像</span></li>
+      <li><a href="#">{{ resName }}</a></li>
     </ul>
   </div>
 </template>
@@ -27,31 +32,26 @@ export default {
       default: null
     }
   },
+  computed: {
+    isLogin() {
+      console.log('resName:', this.resName)
+      if(this.resName === null) { // 数据库中没有则显示注册登录
+        return true
+      }
+      // 有则隐藏
+      return false
+    }
+  },
   data() {
     return {
       activeIndex: '1',
-      activeIndex2: '1'
+      activeIndex2: '1',
+      resName: sessionStorage.getItem('ms_username')
     }
-  },
-  computed: {
-    cloneA() {
-      return this.a + 1
-    }
-    // ...mapState({
-    //   data: state => state.data
-    // })
   },
   watch: {
-    a(newValue, oldValue) {
-      console.log('watch newValue', newValue)
-      console.log('watch oldValue', oldValue)
-    }
   },
   created() {
-
-  },
-  mounted() {
-    console.log('headerBox a', this.cloneA)
   },
   methods: {
     handleSelect(key, keyPath) {

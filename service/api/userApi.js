@@ -22,7 +22,6 @@ router.post('/addUser', (req, res) => {
     var sql = $sql.user.add;
     var params = req.body;
     console.log(params);
-    // console.log(params.birth);
     conn.query(sql, [params.name, params.account, params.pass, params.checkPass,
                     params.email, params.phone, params.sex], function(err, result) {
         if (err) {
@@ -33,6 +32,20 @@ router.post('/addUser', (req, res) => {
         }
     })
 });
+
+// 通过status来查找问题
+router.get('/commuQuestion',(req, res) => {
+    let sql = $sql.comquestion.select_status
+    let params = req.body
+    conn.query(sql, function (err, result) {
+        if(err) {
+            console.log(err)
+            return res.end('error')
+        }
+        console.log('result:', result)
+        jsonWrite(res, result)
+    })
+})
 
 //查找用户接口
 router.post('/login', (req, res) => {
@@ -48,7 +61,6 @@ router.post('/login', (req, res) => {
         if (err) {
             console.log(err);
         }
-        // console.log(result);
         if (result[0] === undefined) {
             res.send('-1') // 查询不出username，data 返回-1
         } else {

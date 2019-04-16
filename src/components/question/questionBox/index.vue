@@ -2,19 +2,12 @@
   <div class="problemDec">
     <div class="dec">
       <label for="problem-dec">问题描述</label>
-      <!-- <el-textarea
+      <textarea
         id="problem-dec"
-        colps="130"
+        cols="130"
         rows="20"
         placeholder="在这里输入您的问题"
-      style="vertical-align:top"></el-textarea>-->
-      <!-- <el-input
-        :autosize="{minRows:2,maxRows:4}"
-        v-model="textarea3"
-        type="textarea"
-        placeholder="有没有想法呢？急需您的回答"
-      ></el-input>-->
-      <!-- <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="textarea"></el-input> -->
+      style="vertical-align:top"/>
     </div>
     <router-link to="/commu">
       <el-button

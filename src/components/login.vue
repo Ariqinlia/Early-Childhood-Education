@@ -71,7 +71,8 @@ export default {
           self.$axios
             .post("/api/user/login", JSON.stringify(self.ruleForm))
             .then(response => {
-              console.log(response);
+              console.log("response.data[0].username:", response.data[0].username)
+              let loginResName = response.data[0].username
               if (response.data == -1) {
                 self.errorInfo = true;
                 self.errInfo = "该用户不存在";
@@ -88,6 +89,9 @@ export default {
                   JSON.stringify(self.ruleForm)
                 );
                 console.log(JSON.stringify(self.ruleForm));
+                console.log(JSON.stringify(self.ruleForm.name));
+                let loginRes = sessionStorage.getItem('ms_username')
+                console.log('loginRes:', loginRes)
               }
             })
             .then(error => {

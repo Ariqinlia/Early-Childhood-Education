@@ -4,7 +4,7 @@ import Mock from 'mockjs'
 var Random = Mock.Random
 const arrRegionId = ['10320000', '10320100', '10320200', '10320500', '10320600', '10320700', '10320800', '10321000', '10321100', '10321200', '10321300', '10900051']
 export default {
-  '/drms-project-management/homePage/commuQuestion': {
+  '/commuQuestion': {
     successful: true,
     code: '200',
     message: '成功',
