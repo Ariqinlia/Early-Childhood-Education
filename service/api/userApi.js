@@ -33,7 +33,75 @@ router.post('/addUser', (req, res) => {
     })
 });
 
-// 通过status来查找问题
+// 增加问题接口
+router.post('/addQuestion',(req, res) => {
+    let sql = $sql.comquestion.add
+    let params = req.body
+    let keywords = JSON.parse(Object.keys(params)[0]);
+    console.log('keywords:', keywords)
+    // let currentDate = new Date()
+    // let getTime = currentDate.toLocaleString()
+    conn.query(sql, [keywords.username,Date.now(),0,keywords.dec,0], function (err, result) {
+        if(err) {
+            console.log(err)
+            return res.end('error')
+        }
+        jsonWrite(res, result)
+    })
+})
+
+// 查询问题详情
+router.post('/problemDetails', (req,res) => {
+    let sql = $sql.comment.add
+    let params = req.body
+    let keywords = JSON.parse(Object.keys(params)[0])
+    // let currentDate = new Date()
+    // let getTime = currentDate.toLocaleString()
+    let {q_id,u_id,comments} = keywords
+    conn.query(sql, [q_id,u_id,comments,Date.now()],(err, result)=>{
+        if(err) {
+            return res.end('error')
+        }
+        jsonWrite(res, result)
+    })
+})
+
+// 查询问题回答个数
+// router.post('/showNum', (req, res) => {
+//     let sql = $sql.comment.selcect_all
+//     let params = req.body
+//     let keywords = JSON.parse(Object.keys(params)[0])
+//     if(keywords.q_id) {
+//         sql += " and comment.q_id = " + keywords.q_id
+//     }
+//     console.log("sql:",sql)
+//     conn.query(sql, (err, result) => {
+//         if(err) {
+//             return res.send('error')
+//         }
+//         jsonWrite(res, result)
+//     })
+// })
+
+// 显示回答列表
+router.post('/showAnswer', (req,res) => {
+    let sql_username = $sql.comment.select_uid_byuser
+    let params = req.body
+    let keywords = JSON.parse(Object.keys(params)[0])
+    if(keywords.u_id) {
+        sql_username += " and comment.q_id = " + keywords.q_id
+    }
+    console.log("sql_username:", sql_username)
+    conn.query(sql_username, (err, result) => {
+        if(err) {
+            console.log('error')
+            return res.send('error')
+        }
+        jsonWrite(res, result)
+    })
+})
+
+// 查找问题并区分已解决或未解决
 router.get('/commuQuestion',(req, res) => {
     let sql = $sql.comquestion.select_status
     let params = req.body
@@ -52,6 +120,7 @@ router.post('/login', (req, res) => {
     var sql_name = $sql.user.select_name;
     // var sql_password = $sql.user.select_password;
     var params = req.body;
+    console.log('params login',params)
     var keywords = JSON.parse(Object.keys(params)[0]);
     if (keywords.name) {
         sql_name += " where username ='"+ keywords.name +"'";

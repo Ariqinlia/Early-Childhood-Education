@@ -17,19 +17,18 @@ export default {
   created() {
     // console.log('created')
     // 在页面加载时读取sessionStorage里的状态信息
-    // if (sessionStorage.getItem('vueStoreState')) {
-    //   this.$store.replaceState(
-    //     Object.assign(
-    //       {},
-    //       this.$store.state,
-    //       JSON.parse(sessionStorage.getItem('vueStoreState'))
-    //     )
-    //   )
-    // }
+    if (sessionStorage.getItem('vueStoreState')) {
+      this.$store.replaceState(
+        Object.assign(
+          this.$store.state,
+          JSON.parse(sessionStorage.getItem('vueStoreState'))
+        )
+      )
+    }
 
-    // window.addEventListener('beforeunload', () => {
-    //   sessionStorage.setItem('vueStoreState', JSON.stringify(this.$store.state))
-    // })
+    window.addEventListener('beforeunload', () => {
+      sessionStorage.setItem('vueStoreState', JSON.stringify(this.$store.state))
+    })
   },
   methods: {
     // ...mapActions(['changeData'])

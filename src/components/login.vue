@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
   name: "login",
   data() {
@@ -62,7 +63,17 @@ export default {
     this.identifyCode = "";
     this.makeCode(this.identifyCodes, 4);
   },
+  computed: {
+    ...mapState({
+      data: state => state.data
+    })
+  },
   methods: {
+    ...mapActions(['changeData']),
+    // 修改u_id
+    changeUid(u_id){
+      this.changeData({data:Object.assign(this.data,{u_id})})
+    },
     submitForm(formName) {
       // debounceAjax(formName)
       const self = this;
@@ -71,7 +82,6 @@ export default {
           self.$axios
             .post("/api/user/login", JSON.stringify(self.ruleForm))
             .then(response => {
-              console.log("response.data[0].username:", response.data[0].username)
               let loginResName = response.data[0].username
               if (response.data == -1) {
                 self.errorInfo = true;
@@ -82,6 +92,7 @@ export default {
                 self.errorInfo = true;
                 self.errInfo = "密码错误";
               } else if (response.status == 200) {
+                this.changeUid(response.data[0].u_id)
                 self.$router.push("/");
                 sessionStorage.setItem("ms_username", self.ruleForm.name);
                 sessionStorage.setItem(

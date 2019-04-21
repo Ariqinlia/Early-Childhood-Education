@@ -7,21 +7,58 @@
         cols="130"
         rows="20"
         placeholder="在这里输入您的问题"
-      style="vertical-align:top"/>
+        v-model="form.dec"
+        style="vertical-align:top"/>
     </div>
-    <router-link to="/commu">
-      <el-button
-        type="primary"
-        round>提交问题</el-button>
-    </router-link>
+    <el-button
+      type="primary"
+      @click="submit(resName)"
+      round>提交问题</el-button>
   </div>
 </template>
 
 <script>
 export default {
+  created() {
+  },
   data() {
-    return {}
-  }
+    return {
+      resName: sessionStorage.getItem('ms_username'),
+      // dec: '',
+      form: {
+        // username: sessionStorage.getItem('ms_username'),
+        // time: '',
+        // answer: 0,
+        dec: '',
+        // status: 0
+      }
+    }
+  },
+  methods: {
+    submit(username) {
+      // username = this.resName
+      if(username === null) {
+        console.log('请登录')
+        this.$notify({
+          type:'warning',
+          message:'请登录',
+          showClose:false,
+          onClick:()=>{
+            this.$router.push({name:'login'})
+          }
+        })
+
+      }else {
+        this.$axios
+          .post('/api/user/addQuestion',JSON.stringify({username,dec:this.form.dec}))
+          .then(res => {
+            this.$router.push('/commu')
+          // console.log('question res:',res)
+        })
+      }
+      
+    }
+  },
 }
 </script>
 

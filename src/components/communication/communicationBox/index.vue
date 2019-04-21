@@ -23,10 +23,11 @@
             v-for="(item,index) in solves"
             :key="index">
             <div class="problem">
-              <p>
-                <router-link to="/details">{{ item.dec }}</router-link>
+              <div>
+                <!-- <router-link to="/details"></router-link> -->
+                <div @click="changeQid(item)">{{ item.problem_desc }}</div>
                 <span>{{ item.answer }}个回答</span>
-              </p>
+              </div>
               <p>
                 <a href="#">{{ item.username }}</a>
                 <span>{{ item.time }}</span>
@@ -40,7 +41,7 @@
             :key="index">
             <div class="problem">
               <p>
-                <a href="#">{{ item.dec }}</a>
+                <a href="#">{{ item.problem_desc }}</a>
                 <span>{{ item.answer }}个回答</span>
               </p>
               <p>
@@ -62,6 +63,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
   data() {
     return {
@@ -75,7 +77,8 @@ export default {
       solves: [],
       status: 1, //1 -- true已解决,0 -- false未解决
       loading: false,
-      totalProblems: []
+      totalProblems: [],
+      // answer: 0
     }
   },
   created() {
@@ -85,6 +88,7 @@ export default {
         '/api/user/commuQuestion'
       )
       .then(res => {
+        console.log('res', res)
         this.loading = false
         const arr = res.data
         this.totalProblems = arr
@@ -96,7 +100,22 @@ export default {
         console.log('error', error)
       })
   },
+  computed: {
+    ...mapState({
+      data: state => state.data
+    })
+  },
   methods: {
+    ...mapActions(['changeData']),
+    changeQid({q_id,username,problem_desc,time}) {
+      console.log('changeQid')
+      this.changeData({data: Object.assign(this.data, {q_id})})
+      this.$router.push({name:'details', params: {
+        username,
+        problem_desc,
+        time
+      }})
+    },
     // 区分已解决和未解决的数组
     qvfenarr() {
       const { totalProblems: arr } = this
@@ -106,8 +125,7 @@ export default {
       for (let i = 0; i < arr.length; i++) {
         console.log('arr['+i+'].status:', arr[i].status)
         if (arr[i].status === 0) {
-          console.log('status==false')
-          arr[i].answer = 0
+          // arr[i].answer = 0
           this.unproblems.push(arr[i])
         } else {
           this.problems.push(arr[i])
@@ -131,7 +149,7 @@ export default {
         this.solves = []
         this.unsolves = []
         for (let i = 0; i < this.totalProblems.length; i++) {
-          if (this.totalProblems[i].dec.includes(this.input1)) {
+          if (this.totalProblems[i].problem_desc.includes(this.input1)) {
             const item = this.totalProblems[i]
             if (this.totalProblems[i].status === 1) { this.problems.push(item) } else {
               this.unproblems.push(item)
