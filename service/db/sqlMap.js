@@ -7,6 +7,7 @@ var sqlMap = {
     comquestion: {
         select_status: 'select * from comquestion',
         add: 'insert into comquestion (username, time, answer, problem_desc, status) values (?,?,?,?,?)',
+        update: 'update comquestion set '
     },
     comment: {
         selcect_all: 'select count(*) from comment',

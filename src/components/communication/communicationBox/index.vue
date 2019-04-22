@@ -23,11 +23,10 @@
             v-for="(item,index) in solves"
             :key="index">
             <div class="problem">
-              <div>
-                <!-- <router-link to="/details"></router-link> -->
-                <div @click="changeQid(item)">{{ item.problem_desc }}</div>
+              <p>
+                <a herf="javascript:;" @click="changeQid(item)">{{ item.problem_desc }}</a>
                 <span>{{ item.answer }}个回答</span>
-              </div>
+              </p>
               <p>
                 <a href="#">{{ item.username }}</a>
                 <span>{{ item.time }}</span>
@@ -41,7 +40,7 @@
             :key="index">
             <div class="problem">
               <p>
-                <a href="#">{{ item.problem_desc }}</a>
+                <a herf="javascript:;" @click="changeQid(item)">{{ item.problem_desc }}</a>
                 <span>{{ item.answer }}个回答</span>
               </p>
               <p>
@@ -107,13 +106,14 @@ export default {
   },
   methods: {
     ...mapActions(['changeData']),
-    changeQid({q_id,username,problem_desc,time}) {
+    changeQid({q_id,username,problem_desc,time,answer}) {
       console.log('changeQid')
       this.changeData({data: Object.assign(this.data, {q_id})})
       this.$router.push({name:'details', params: {
         username,
         problem_desc,
-        time
+        time,
+        answer
       }})
     },
     // 区分已解决和未解决的数组

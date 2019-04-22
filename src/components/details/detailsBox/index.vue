@@ -45,6 +45,7 @@ export default {
     };
   },
   created() {
+    this.updateComquestion()
     this.showAnswer()
   },
   computed: {
@@ -62,6 +63,9 @@ export default {
     },
     time() {
       return this.$route.params.time
+    },
+    answer() {
+      return this.$route.params.answer // 拿到从问题列表传过来的回答数
     }
   },
   methods: {
@@ -72,14 +76,27 @@ export default {
           .then(res => {
             alert('操作成功')
             this.comments = ''
+            this.updateComquestion()
             this.showAnswer()
         })
+    },
+    updateComquestion() {
+      this.$axios
+          .post('api/user/updateComquestion', JSON.stringify({q_id: this.q_id,answer: this.answer}))
+          .then(res => {
+            console.log('res:', res)
+          })
     },
     showAnswer() {
       this.$axios
           .post('/api/user/showAnswer', JSON.stringify({q_id: this.q_id}))
           .then(res => {
+            console.log('res.data:', res.data)
+            this.answerList = []
             this.answerList = res.data
+            // if(this.answer === 0){
+            //   this.answerList = []
+            // }
           })
     }
   }

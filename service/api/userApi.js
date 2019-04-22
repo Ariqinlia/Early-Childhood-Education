@@ -39,9 +39,9 @@ router.post('/addQuestion',(req, res) => {
     let params = req.body
     let keywords = JSON.parse(Object.keys(params)[0]);
     console.log('keywords:', keywords)
-    // let currentDate = new Date()
-    // let getTime = currentDate.toLocaleString()
-    conn.query(sql, [keywords.username,Date.now(),0,keywords.dec,0], function (err, result) {
+    let currentDate = new Date()
+    let getTime = currentDate.toLocaleString()
+    conn.query(sql, [keywords.username,getTime,0,keywords.dec,0], function (err, result) {
         if(err) {
             console.log(err)
             return res.end('error')
@@ -55,10 +55,10 @@ router.post('/problemDetails', (req,res) => {
     let sql = $sql.comment.add
     let params = req.body
     let keywords = JSON.parse(Object.keys(params)[0])
-    // let currentDate = new Date()
-    // let getTime = currentDate.toLocaleString()
+    let currentDate = new Date()
+    let getTime = currentDate.toLocaleString()
     let {q_id,u_id,comments} = keywords
-    conn.query(sql, [q_id,u_id,comments,Date.now()],(err, result)=>{
+    conn.query(sql, [q_id,u_id,comments,getTime],(err, result)=>{
         if(err) {
             return res.end('error')
         }
@@ -67,28 +67,29 @@ router.post('/problemDetails', (req,res) => {
 })
 
 // 查询问题回答个数
-// router.post('/showNum', (req, res) => {
-//     let sql = $sql.comment.selcect_all
-//     let params = req.body
-//     let keywords = JSON.parse(Object.keys(params)[0])
-//     if(keywords.q_id) {
-//         sql += " and comment.q_id = " + keywords.q_id
-//     }
-//     console.log("sql:",sql)
-//     conn.query(sql, (err, result) => {
-//         if(err) {
-//             return res.send('error')
-//         }
-//         jsonWrite(res, result)
-//     })
-// })
+router.post('/updateComquestion', (req, res) => {
+    let sql = $sql.comquestion.update
+    let params = req.body
+    let keywords = JSON.parse(Object.keys(params)[0])
+    let {q_id,answer} = keywords
+    if(q_id) {
+        sql += "answer = (select count(*) from comment where q_id= "+ q_id+ "), status = (select case when answer>0 then 1 else 0 end) where q_id= " + q_id
+    }
+    console.log("sql:",sql)
+    conn.query(sql, [q_id, answer], (err, result) => {
+        if(err) {
+            return res.send('error')
+        }
+        jsonWrite(res, result)
+    })
+})
 
 // 显示回答列表
 router.post('/showAnswer', (req,res) => {
     let sql_username = $sql.comment.select_uid_byuser
     let params = req.body
     let keywords = JSON.parse(Object.keys(params)[0])
-    if(keywords.u_id) {
+    if(keywords.q_id) {
         sql_username += " and comment.q_id = " + keywords.q_id
     }
     console.log("sql_username:", sql_username)
