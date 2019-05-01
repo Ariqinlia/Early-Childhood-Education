@@ -147,14 +147,17 @@ router.post('/login', (req, res) => {
 });
 
 //获取用户信息
-router.get('/getUser', (req, res) => {
+router.post('/getUser', (req, res) => {
     var sql_name = $sql.user.select_name;
     // var sql_password = $sql.user.select_password;
     var params = req.body;
     console.log(params);
-    if (params.name) {
-        sql_name += "where username ='"+ params.name +"'";
+    var keywords = JSON.parse(Object.keys(params)[0]);
+    console.log('keywords',keywords)
+    if (keywords) {
+        sql_name += "where username ='"+ keywords +"'";
     }
+    console.log(sql_name)
     conn.query(sql_name, params.name, function(err, result) {
         if (err) {
             console.log(err);
@@ -168,31 +171,32 @@ router.get('/getUser', (req, res) => {
     })
 });
 
-//更新用户信息
-// router.post('/updateUser', (req, res) => {
-//     var sql_update = $sql.user.update_user;
-//     var params = req.body;
-//     console.log(params);
-//     if (params.id) {
-//         sql_update  += " email = '" + params.email +
-//                         "',phone = '" + params.phone +
-//                         "',card = '" + params.card +
-//                         "',birth = '" + params.birth +
-//                         "',sex = '" + params.sex +
-//                         "' where id ='"+ params.id + "'";
-//     }    
-//     conn.query(sql_update, params.id, function(err, result) {
-//         if (err) {
-//             console.log(err);
-//         }
-//         console.log(result);
-//         if (result.affectedRows === undefined) {
-//             res.send('更新失败，请联系管理员')   //查询不出username，data 返回-1
-//         } else {
-//             res.send('ok'); 
-//         }
-//     })
-// });
+// 更新用户信息
+router.post('/updateUser', (req, res) => {
+    var sql_update = $sql.user.update_user;
+    var params = req.body;
+    console.log(params);
+    var keywords = JSON.parse(Object.keys(params)[0]);
+    if (keywords) {
+        sql_update += " email = '" + keywords.email +
+                        "',username = '" + keywords.username +
+                        "',account = '" + keywords.account +
+                        "',phone = '" + keywords.phone +
+                        "',sex = '" + keywords.sex +
+                        "' where u_id ='"+ keywords.u_id + "'";
+    }    
+    conn.query(sql_update, params.id, function(err, result) {
+        if (err) {
+            console.log(err);
+        }
+        console.log(result);
+        if (result.affectedRows === undefined) {
+            res.send('更新失败，请联系管理员')   //查询不出username，data 返回-1
+        } else {
+            res.send('ok'); 
+        }
+    })
+});
 
 //更改密码
 router.post('/modifyPassword', (req, res) => {

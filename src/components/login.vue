@@ -1,6 +1,6 @@
 <template>
   <div class="login-wrap">
-    <div class="ms-title">登录管理系统</div>
+    <div class="ms-title">登录幼儿早教网站</div>
     <div class="ms-login">
       <el-form
         :model="ruleForm"

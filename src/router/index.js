@@ -44,6 +44,11 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: () => import('@/components/Register.vue')
+    },
+    {
+      path: '/userCenter',
+      name: 'userCenter',
+      component: () => import('@/components/userCenter.vue')
     }
   ]
 })
