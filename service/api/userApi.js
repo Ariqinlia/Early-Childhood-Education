@@ -22,7 +22,7 @@ router.post('/addUser', (req, res) => {
     var sql = $sql.user.add;
     var params = req.body;
     console.log(params);
-    conn.query(sql, [params.name, params.account, params.pass, params.checkPass,
+    conn.query(sql, [params.name, params.pass, params.checkPass,
                     params.email, params.phone, params.sex], function(err, result) {
         if (err) {
             console.log(err);
@@ -39,8 +39,8 @@ router.post('/addQuestion',(req, res) => {
     let params = req.body
     let keywords = JSON.parse(Object.keys(params)[0]);
     console.log('keywords:', keywords)
-    let currentDate = new Date()
-    let getTime = currentDate.toLocaleString()
+    // let currentDate = new Date()
+    let getTime = Date.now()
     conn.query(sql, [keywords.username,getTime,0,keywords.dec,0], function (err, result) {
         if(err) {
             console.log(err)
@@ -55,8 +55,8 @@ router.post('/problemDetails', (req,res) => {
     let sql = $sql.comment.add
     let params = req.body
     let keywords = JSON.parse(Object.keys(params)[0])
-    let currentDate = new Date()
-    let getTime = currentDate.toLocaleString()
+    // let currentDate = new Date()
+    let getTime = Date.now()
     let {q_id,u_id,comments} = keywords
     conn.query(sql, [q_id,u_id,comments,getTime],(err, result)=>{
         if(err) {
@@ -123,11 +123,11 @@ router.post('/login', (req, res) => {
     var params = req.body;
     console.log('params login',params)
     var keywords = JSON.parse(Object.keys(params)[0]);
-    if (keywords.name) {
-        sql_name += " where username ='"+ keywords.name +"'";
+    if (keywords.username) {
+        sql_name += " where username ='"+ keywords.username +"'";
         console.log(sql_name);
     }    
-    conn.query(sql_name, keywords.name, function(err, result) {
+    conn.query(sql_name, keywords.username, function(err, result) {
         if (err) {
             console.log(err);
         }
@@ -158,7 +158,7 @@ router.post('/getUser', (req, res) => {
         sql_name += "where username ='"+ keywords +"'";
     }
     console.log(sql_name)
-    conn.query(sql_name, params.name, function(err, result) {
+    conn.query(sql_name, params.username, function(err, result) {
         if (err) {
             console.log(err);
         }
@@ -180,12 +180,11 @@ router.post('/updateUser', (req, res) => {
     if (keywords) {
         sql_update += " email = '" + keywords.email +
                         "',username = '" + keywords.username +
-                        "',account = '" + keywords.account +
                         "',phone = '" + keywords.phone +
                         "',sex = '" + keywords.sex +
                         "' where u_id ='"+ keywords.u_id + "'";
     }    
-    conn.query(sql_update, params.id, function(err, result) {
+    conn.query(sql_update, params.u_id, function(err, result) {
         if (err) {
             console.log(err);
         }
@@ -208,7 +207,7 @@ router.post('/modifyPassword', (req, res) => {
                         "',repeatPass = '" + params.checkPass +
                         "' where id ='"+ params.id + "'";
     }
-    conn.query(sql_modify, params.id, function(err, result) {
+    conn.query(sql_modify, params.u_id, function(err, result) {
         if (err) {
             console.log(err);
         }
@@ -220,6 +219,36 @@ router.post('/modifyPassword', (req, res) => {
         }
     })
 });
+
+router.post('/product', (req, res) => {
+    var sql_all = $sql.product.select_all;
+    // var sql_password = $sql.user.select_password;
+    var params = req.body;
+    // var keywords = JSON.parse(Object.keys(params)[0]);
+    conn.query(sql_all, function(err, result) {
+        if (err) {
+            console.log(err);
+        }
+        if (result[0] === undefined) {
+            res.send('-1') // 查询不出username，data 返回-1
+        } else {
+            jsonWrite(res, result)
+        }
+    })
+});
+
+// 获取0-1岁早教信息
+router.post('/getinfoOne',(req, res) => {
+    let sql_all = $sql.infoone.select_all
+    let params = req.body
+    conn.query(sql_all, (err, result) => {
+        if(err) {
+            console.log(err)
+        } else {
+            jsonWrite(res, result)
+        }
+    })
+})
 
 
 module.exports = router;

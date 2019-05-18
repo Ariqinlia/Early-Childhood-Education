@@ -1,6 +1,6 @@
 var sqlMap = {
     user: {
-        add: 'insert into user (username, account, password, repeatPass, email, phone, sex) values (?,?,?,?,?,?,?)',
+        add: 'insert into user (username, password, repeatPass, email, phone, sex) values (?,?,?,?,?,?)',
         select_name: 'select * from user ',
         update_user: 'update user set'
     },
@@ -13,6 +13,12 @@ var sqlMap = {
         selcect_all: 'select count(*) from comment',
         add: 'insert into comment (q_id, u_id, comments, c_time) values (?,?,?,?)',
         select_uid_byuser: 'select username,q_id,user.u_id,comments,c_time from comment,user where comment.u_id = user.u_id'
+    },
+    product: {
+        select_all: 'select * from product'
+    },
+    infoone: {
+        select_all: 'select * from infoone'
     }
 }
 

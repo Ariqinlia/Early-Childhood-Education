@@ -13,7 +13,7 @@
           <span>{{errInfo}}</span>
         </div>
         <el-form-item prop="name">
-          <el-input v-model="ruleForm.name" placeholder="账号"></el-input>
+          <el-input v-model="ruleForm.username" placeholder="账号"></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input
@@ -48,12 +48,12 @@ export default {
       identifyCode: "",
       errorInfo: false,
       ruleForm: {
-        name: "",
+        username: "",
         password: "",
         validate: ""
       },
       rules: {
-        name: [{ required: true, message: "请输入用户名", trigger: "blur" }],
+        username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
         password: [{ required: true, message: "请输入密码", trigger: "blur" }],
         validate: [{ required: true, message: "请输入验证码", trigger: "blur" }]
       }
@@ -94,13 +94,13 @@ export default {
               } else if (response.status == 200) {
                 this.changeUid(response.data[0].u_id)
                 self.$router.push("/");
-                sessionStorage.setItem("ms_username", self.ruleForm.name);
+                sessionStorage.setItem("ms_username", self.ruleForm.username);
                 sessionStorage.setItem(
                   "ms_user",
                   JSON.stringify(self.ruleForm)
                 );
                 console.log(JSON.stringify(self.ruleForm));
-                console.log(JSON.stringify(self.ruleForm.name));
+                console.log(JSON.stringify(self.ruleForm.username));
                 let loginRes = sessionStorage.getItem('ms_username')
                 console.log('loginRes:', loginRes)
               }
@@ -142,38 +142,6 @@ export default {
         }, delay);
       };
     },
-    submitDebounce(formName) {
-      const self = this;
-      self.$refs[formName].validate(valid => {
-        if (valid) {
-          localStorage.setItem("ms_username", self.ruleForm.name);
-          localStorage.setItem("ms_user", JSON.stringify(self.ruleForm));
-          console.log(JSON.stringify(self.ruleForm));
-          self.$axios
-            .post("/api/user/login", JSON.stringify(self.ruleForm))
-            .then(response => {
-              console.log(response);
-              if (response.data == -1) {
-                self.errorInfo = true;
-                self.errInfo = "该用户不存在";
-                console.log("该用户不存在");
-              } else if (response.data == 0) {
-                console.log("密码错误");
-                self.errorInfo = true;
-                self.errInfo = "密码错误";
-              } else if (response.status == 200) {
-                self.$router.push("/");
-              }
-            })
-            .then(error => {
-              console.log(error);
-            });
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
-      });
-    },
     debounceAjax() {
       debounce(submitDebounce, 1000);
     }
@@ -186,7 +154,6 @@ export default {
   position: relative;
   width: 100%;
   height: 600px;
-  background-color: pink;
 }
 .ms-title {
   position: absolute;

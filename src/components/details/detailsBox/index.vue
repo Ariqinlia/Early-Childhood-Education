@@ -5,7 +5,7 @@
         <div class="content">
           <p>
             <a href="#">{{ username }}</a>
-            <span>{{ time }}</span>
+            <span>{{ time | formatTime }}</span>
           </p>
           <p>{{ problem_desc }}</p>
           <div>
@@ -27,7 +27,7 @@
         :key="index">
         <p>
           <a href="#">{{ item.username }}</a>
-          <span>{{ item.c_time }}</span>
+          <span>{{ item.c_time | formatTime }}</span>
         </p>
         <p>{{ item.comments }}</p>
       </div>
@@ -55,7 +55,6 @@ export default {
       q_id: state => state.data.q_id
     }),
     username(){
-      console.log('this.$route',this.$route)
       return this.$route.params.username
     },
     problem_desc() {
@@ -91,12 +90,9 @@ export default {
       this.$axios
           .post('/api/user/showAnswer', JSON.stringify({q_id: this.q_id}))
           .then(res => {
-            console.log('res.data:', res.data)
+            console.log('res:', res.data)
             this.answerList = []
             this.answerList = res.data
-            // if(this.answer === 0){
-            //   this.answerList = []
-            // }
           })
     }
   }
@@ -110,6 +106,10 @@ export default {
 }
 .content {
   width: 80%;
+  margin: 0 auto;
+}
+.content .el-button--primary {
+  width: 20%;
   margin: 0 auto;
 }
 .content p:first-child,

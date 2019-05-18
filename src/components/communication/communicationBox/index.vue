@@ -9,9 +9,7 @@
         type="primary"
         icon="el-icon-search"
         @click="search">搜索</el-button>
-      <router-link to="/question">
-        <el-button type="success">我要提问</el-button>
-      </router-link>
+        <el-button type="success" @click="handlerQuestion">我要提问</el-button>
     </div>
     <div class="search-content">
       <el-tabs
@@ -29,7 +27,7 @@
               </p>
               <p>
                 <a href="#">{{ item.username }}</a>
-                <span>{{ item.time }}</span>
+                <span>{{ item.time | formatTime }}</span>
               </p>
             </div>
           </div>
@@ -45,7 +43,7 @@
               </p>
               <p>
                 <a href="#">{{ item.username }}</a>
-                <span>{{ item.time }}</span>
+                <span>{{ item.time | formatTime }}</span>
               </p>
             </div>
           </div>
@@ -87,7 +85,6 @@ export default {
         '/api/user/commuQuestion'
       )
       .then(res => {
-        console.log('res', res)
         this.loading = false
         const arr = res.data
         this.totalProblems = arr
@@ -116,16 +113,16 @@ export default {
         answer
       }})
     },
+    handlerQuestion() {
+      this.$router.push('/question')
+    },
     // 区分已解决和未解决的数组
     qvfenarr() {
       const { totalProblems: arr } = this
-      console.log('arr:', arr)
       this.unproblems.length = 0
       this.problems.length = 0
       for (let i = 0; i < arr.length; i++) {
-        console.log('arr['+i+'].status:', arr[i].status)
         if (arr[i].status === 0) {
-          // arr[i].answer = 0
           this.unproblems.push(arr[i])
         } else {
           this.problems.push(arr[i])
@@ -186,14 +183,12 @@ export default {
       // console.log(start, end, total)
       if (this.status === 0) {
         total = this.unproblems.length
-        console.log('unproblems total:', total)
         const start = (currentPage - 1) * 10
         const flag = Math.floor(total / 10) > Math.floor((start / 10))
         const end = flag ? start + 10 : total % 10 + start
         this.unsolves = this.unproblems.slice(start, end)
       } else {
         total = this.problems.length
-        console.log('problems total:', total)
         const start = (currentPage - 1) * 10
         const flag = Math.floor(total / 10) > Math.floor((start / 10))
         const end = flag ? start + 10 : total % 10 + start
@@ -251,6 +246,7 @@ export default {
   flex-flow: wrap;
 }
 .problem > p {
+  cursor: pointer;
   width: 100%;
   display: flex;
   justify-content: space-between;

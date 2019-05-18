@@ -12,6 +12,8 @@ import i18n from './lang/index'
 import './mock/index'
 import axios from './axios'// 通过import引入
 import SIdentify from './components/Identify' // 自定义组件
+import filters from './filters';
+Object.keys(filters).forEach(k => Vue.filter(k, filters[k]));
 
 Vue.config.productionTip = false
 

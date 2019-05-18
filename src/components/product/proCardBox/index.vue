@@ -36,32 +36,7 @@ export default {
   data() {
     return {
       cards: [],
-      cardContent: [
-        {
-          dec: '¥115.00',
-          content: '幼儿早教积木米奇妙神奇水果益智拼搭积木车水果积木车3C认证产品'
-        },
-        {
-          dec: '¥638.40',
-          content: 'haba幼教配对益智幼教玩具幼儿园早教产品对对乐'
-        },
-        {
-          dec: '¥38.00',
-          content: '蒙氏木制投币盒圆球抽屉儿童早教益智学习玩具幼儿1-3岁练习礼物'
-        },
-        {
-          dec: '¥45.00',
-          content: '幼儿亲子互动中心 家庭互动阶段早教产品分月龄视频 7-48个月'
-        },
-        {
-          dec: '¥11.02',
-          content: '1-100宝宝圆点数学习卡片幼儿童数字认字防水溅早教产品教具'
-        },
-        {
-          dec: '¥15.00',
-          content: '幼儿园儿童学前教育早教产品益智类玩具颜色的认识与搭配开发智力'
-        }
-      ]
+      cardContent: []
     }
   },
   computed: {
@@ -70,6 +45,15 @@ export default {
     // })
   },
   watch: {
+    cardContent(newValue){
+      const { cards } = this
+      let card
+      for (let i = 1; i <= newValue.length; i++) {
+        card = require(`../../../assets/product${i}.jpg`)
+        cards.push(card)
+      }
+    }
+
   },
   created() {
     this.init()
@@ -78,12 +62,12 @@ export default {
   },
   methods: {
     init() {
-      const { cards } = this
-      let card
-      for (let i = 1; i <= this.cardContent.length; i++) {
-        card = require(`../../../assets/product${i}.jpg`)
-        cards.push(card)
-      }
+      this.$axios.post('/api/user/product').then( res => {
+        res.data.forEach((element,index) => {
+          let {pro_dec:content,pro_price:dec} = element
+          this.cardContent.push({dec,content})
+        });
+      })
     }
     // ...mapActions(['changeData'])
   }

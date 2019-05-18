@@ -1,10 +1,5 @@
 <template>
-  <div>
-    product
-    <img
-      src="../../../assets/product1.jpg"
-      alt="">
-  </div>
+<div></div>
 </template>
 
 <script>

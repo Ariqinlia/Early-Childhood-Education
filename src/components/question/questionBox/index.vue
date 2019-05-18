@@ -36,7 +36,6 @@ export default {
   },
   methods: {
     submit(username) {
-      // username = this.resName
       if(username === null) {
         console.log('请登录')
         this.$notify({
@@ -72,5 +71,9 @@ export default {
   background-color: #ccc;
   margin: 20px auto;
   border: 1px solid #000;
+}
+.el-button--primary {
+  width: 20%;
+  margin: 0 auto;
 }
 </style>

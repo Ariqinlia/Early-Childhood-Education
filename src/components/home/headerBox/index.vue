@@ -26,8 +26,6 @@
       <li>
         <el-dropdown trigger="click" @command="handleCommand">
           <span class="el-dropdown-link">
-            <!-- <img class="user-logo" src="../../../static/img/img.jpg"> -->
-            头像
             {{resName}}
           </span>
           <el-dropdown-menu slot="dropdown">
@@ -44,15 +42,6 @@
 // import { mapState } from 'vuex'
 // import { mapActions } from 'vuex'
 export default {
-  filters: {
-    headerFilter(value) {}
-  },
-  props: {
-    a: {
-      type: Object,
-      default: null
-    }
-  },
   computed: {
     isLogin() {
       console.log("resName:", this.resName);
@@ -66,8 +55,6 @@ export default {
   },
   data() {
     return {
-      activeIndex: "1",
-      activeIndex2: "1",
       resName: sessionStorage.getItem("ms_username")
     };
   },

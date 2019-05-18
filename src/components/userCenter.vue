@@ -16,9 +16,6 @@
         <el-form-item label="用户名称">
           <el-input v-model="res.username" disabled></el-input>
         </el-form-item>
-        <el-form-item label="账号名称">
-          <el-input v-model="res.account" :disabled=isdisabled></el-input>
-        </el-form-item>
         <el-form-item label="邮箱">
           <el-input v-model="res.email" :disabled=isdisabled placeholder='eg:194ha@126.com'></el-input>
         </el-form-item>
@@ -57,7 +54,8 @@ export default {
       this.$axios
         .post("/api/user/getUser", JSON.stringify(this.username))
         .then(res => {
-					this.res = res.data[0]
+          console.log(res)
+          this.res = res.data[0]
 					// this.currentId = res.u_id
         })
         .then(function(error) {

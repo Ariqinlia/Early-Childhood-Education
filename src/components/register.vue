@@ -3,7 +3,7 @@
     <div class="crumbs crumbs-register">
       <el-breadcrumb separator="/" class="register-title">
         <el-breadcrumb-item>
-          <i class="el-icon-setting"></i>注册
+          <i class="el-icon-setting"></i><span>注册</span>
         </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -11,9 +11,6 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item prop="name" label="用户名称">
           <el-input v-model="form.name" placeholder="请输入用户名称"></el-input>
-        </el-form-item>
-        <el-form-item prop="account" label="账号名称">
-          <el-input v-model="form.account" placeholder="请输入账号"></el-input>
         </el-form-item>
         <el-form-item prop="pass" label="密码">
           <el-input v-model="form.pass" type="password" placeholder="请输入密码"></el-input>
@@ -86,7 +83,6 @@ export default {
     return {
       form: {
         name: "",
-        account: "",
         pass: "",
         checkPass: "",
         email: "",
@@ -95,7 +91,6 @@ export default {
       },
       rules: {
         name: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-        account: [{ required: true, message: "请输入账号", trigger: "blur" }],
         pass: [{ validator: validatePass, trigger: "blur" }],
         checkPass: [{ validator: validatePass2, trigger: "blur" }],
         email: [{ validator: validateEmail, trigger: "blur" }],
@@ -134,7 +129,7 @@ export default {
 
 <style>
 .crumbs-register {
-  background-color: #324157;
+  background-color: #237995;
   height: 50px;
   line-height: 50px;
 }
@@ -144,9 +139,13 @@ export default {
   width: 50px;
   font-size: 16px;
 }
+.register-title i, 
+.register-title span {
+  color: #ddd;
+}
 .userContent {
   width: 400px;
-  margin: 0 auto;
+  margin: 20px auto;
 }
 .select-sex {
   width: 320px;
