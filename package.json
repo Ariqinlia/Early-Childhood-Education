@@ -2,7 +2,7 @@
   "name": "Early_Childhood_Education",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "XiangNan <897124732@qq.com>",
+  "author": "Zhang Qinli <1664385688@qq.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
